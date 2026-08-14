@@ -22,19 +22,27 @@ app.use(
       } else {
         callback(new Error("Not allowed by CORS"));
       }
-    },
+    }
   })
 );
 
+// Body parsers
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// Test route
 app.get("/", (req, res) => {
-  res.json({ message: "CampusBite API is running." });
+  res.json({
+    message: "CampusBite API is running."
+  });
 });
 
+// Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/orders", require("./routes/orders"));
+app.use("/api/payment", require("./routes/payment"));
 
+// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -44,6 +52,7 @@ mongoose
     console.error("MongoDB connection failed:", err.message);
   });
 
+// Export for Vercel
 module.exports = app;
 
 // Local development only
