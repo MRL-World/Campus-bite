@@ -3,7 +3,9 @@ const router = express.Router();
 const axios = require("axios");
 const qs = require("qs");
 
-// Create payment
+// ==============================
+// CREATE PAYMENT
+// ==============================
 router.post("/create", async (req, res) => {
   try {
     const {
@@ -17,21 +19,24 @@ router.post("/create", async (req, res) => {
     const transactionId = "CAMPUSBITE_" + Date.now();
 
     const paymentData = {
+      // SSLCOMMERZ credentials
       store_id: process.env.SSLCOMMERZ_STORE_ID,
       store_passwd: process.env.SSLCOMMERZ_STORE_PASSWORD,
 
+      // Transaction information
       total_amount: amount,
       currency: "BDT",
       tran_id: transactionId,
 
+      // Backend callback URLs
       success_url:
-        "https://campus-bite-backend-chnqx8281-mrl-world.vercel.app/api/payment/success",
+        "https://campus-bite-backend.vercel.app/api/payment/success",
 
       fail_url:
-        "https://campus-bite-backend-chnqx8281-mrl-world.vercel.app/api/payment/fail",
+        "https://campus-bite-backend.vercel.app/api/payment/fail",
 
       cancel_url:
-        "https://campus-bite-backend-chnqx8281-mrl-world.vercel.app/api/payment/cancel",
+        "https://campus-bite-backend.vercel.app/api/payment/cancel",
 
       // Customer information
       cus_name: customerName,
@@ -82,7 +87,9 @@ router.post("/create", async (req, res) => {
   }
 });
 
-// Payment success callback
+// ==============================
+// PAYMENT SUCCESS
+// ==============================
 router.all("/success", (req, res) => {
   console.log("Payment Success:", req.body);
 
@@ -91,7 +98,9 @@ router.all("/success", (req, res) => {
   );
 });
 
-// Payment fail callback
+// ==============================
+// PAYMENT FAILED
+// ==============================
 router.all("/fail", (req, res) => {
   console.log("Payment Failed:", req.body);
 
@@ -100,7 +109,9 @@ router.all("/fail", (req, res) => {
   );
 });
 
-// Payment cancel callback
+// ==============================
+// PAYMENT CANCELLED
+// ==============================
 router.all("/cancel", (req, res) => {
   console.log("Payment Cancelled:", req.body);
 
