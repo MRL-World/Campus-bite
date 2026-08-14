@@ -83,7 +83,7 @@ router.post("/create", async (req, res) => {
 });
 
 // Payment success callback
-router.post("/success", (req, res) => {
+router.all("/success", (req, res) => {
   console.log("Payment Success:", req.body);
 
   res.redirect(
@@ -92,7 +92,7 @@ router.post("/success", (req, res) => {
 });
 
 // Payment fail callback
-router.post("/fail", (req, res) => {
+router.all("/fail", (req, res) => {
   console.log("Payment Failed:", req.body);
 
   res.redirect(
@@ -101,7 +101,7 @@ router.post("/fail", (req, res) => {
 });
 
 // Payment cancel callback
-router.post("/cancel", (req, res) => {
+router.all("/cancel", (req, res) => {
   console.log("Payment Cancelled:", req.body);
 
   res.redirect(
